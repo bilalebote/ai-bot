@@ -3,19 +3,17 @@ const path = require('path');
 const readlineSync = require('readline-sync');
 const { GPT4All } = require('gpt4all');
 
-// إعداد الموديل
+// مسار الموديل المحلي
 const MODEL_PATH = path.join(__dirname, 'models', 'gpt4all-lora-quantized.bin');
 
+// تحقق من وجود الموديل
 if (!fs.existsSync(MODEL_PATH)) {
-    console.log('Downloading GPT4All model...');
-    fs.mkdirSync(path.join(__dirname, 'models'), { recursive: true });
-    const download = require('child_process').execSync;
-    download('wget https://gpt4all.io/models/gpt4all-lora-quantized.bin -O ' + MODEL_PATH);
-    console.log('Model downloaded!');
+    console.error('Error: Model file not found at', MODEL_PATH);
+    process.exit(1);
 }
 
-// تهيئة البوت
-const gpt = new GPT4All({ model: MODEL_PATH });
+// إنشاء البوت باستخدام الموديل المحلي
+const gpt = new GPT4All({ model: MODEL_PATH, backend: 'llama' });
 
 console.log('AI Bot is ready! Type something and press enter.');
 
@@ -24,11 +22,15 @@ console.log('AI Bot is ready! Type something and press enter.');
         const input = readlineSync.question('You: ');
         if (input.toLowerCase() === 'exit') break;
 
-        const response = await gpt.generate({
-            prompt: input,
-            max_tokens: 150
-        });
+        try {
+            const response = await gpt.generate({
+                prompt: input,
+                max_tokens: 150
+            });
 
-        console.log('AI:', response);
+            console.log('AI:', response);
+        } catch (err) {
+            console.error('Error generating response:', err.message);
+        }
     }
 })();
