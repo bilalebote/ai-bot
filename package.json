@@ -1,1 +1,14 @@
-
+{
+  "name": "ai-bot",
+  "version": "1.0.0",
+  "description": "Free AI bot running on Termux and GitHub",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"   // للتواصل مع API أو تحميل الملفات
+  },
+  "author": "bilalebote",
+  "license": "MIT"
+}
