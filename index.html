@@ -20,6 +20,7 @@
             cursor: default;
         }
 
+        /* ========== خلفية متحركة تفاعلية (Parallax) ========== */
         .bg-layer {
             position: fixed;
             top: -10%; left: -10%;
@@ -55,6 +56,7 @@
         .screen { width: 100%; transition: opacity 0.5s ease, transform 0.5s ease; }
         .hidden { display: none; opacity: 0; pointer-events: none; }
 
+        /* ========== شاشة الترحيب ========== */
         #splash { text-align: center; padding-top: 40px; }
         #splash .logo-img {
             width: min(150px, 30vw); border-radius: 50%;
@@ -93,6 +95,7 @@
         }
         .cta-start:hover::after { opacity: 1; }
 
+        /* ========== نموذج التسجيل ========== */
         #register {
             background: linear-gradient(145deg, rgba(20,20,20,0.92), rgba(10,10,10,0.96));
             backdrop-filter: blur(25px);
@@ -101,8 +104,9 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(212,175,55,0.2);
             position: relative;
         }
+        /* زوايا ذهبية مزخرفة */
         #register::before, #register::after,
-        .corner-bl, .corner-br {
+        #register .corner-bl, #register .corner-br {
             content: ''; position: absolute; width: 30px; height: 30px;
             border-color: #d4af37; border-style: solid; z-index: 3;
             opacity: 0.7; pointer-events: none;
@@ -160,6 +164,7 @@
             background-repeat: no-repeat; background-position: left 15px center; background-size: 14px;
         }
 
+        /* ========== بطاقات الفصائل المطورة ========== */
         .faction-cards {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
             gap: 10px; margin-bottom: 25px;
@@ -210,6 +215,7 @@
         .nav-btn:hover { background: rgba(212,175,55,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.2); }
         .nav-btn:active { transform: scale(0.96); }
 
+        /* ========== زر الإرسال بتأثير الطاقة ========== */
         .submit-btn {
             width: 100%; padding: 16px; border-radius: 12px;
             background: #333; color: #777; font-weight: 900;
@@ -246,6 +252,7 @@
         }
         .laws-link:hover { color: #fff; text-shadow: 0 0 10px #d4af37; }
 
+        /* ========== مودال المخطوطة ========== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
@@ -286,6 +293,7 @@
         }
         .close-scroll:hover { background: #d4af37; color: #000; }
 
+        /* ========== Toast ========== */
         .toast {
             position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
             background: rgba(20,20,20,0.95); backdrop-filter: blur(15px);
@@ -306,10 +314,12 @@
     </style>
 </head>
 <body>
+    <!-- طبقات الخلفية المتحركة -->
     <div class="bg-layer" id="bgLayer"><div class="bg-glow"></div></div>
     <div class="particles-layer" id="particlesLayer"></div>
 
     <div class="container">
+        <!-- شاشة الترحيب -->
         <div id="splash" class="screen">
             <img src="https://i.imgur.com/vmnu7hP.jpeg" alt="شعار العرش الذهبي" class="logo-img"
                  onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23111%22 stroke=%22%23d4af37%22 stroke-width=%224%22/><text x=%22100%22 y=%22120%22 text-anchor=%22middle%22 fill=%22%23d4af37%22 font-size=%2290%22>⚜️</text></svg>';">
@@ -318,10 +328,14 @@
             <a class="cta-start" onclick="startJourney()">⚜️ ابدأ الرحلة</a>
         </div>
 
+        <!-- شاشة التسجيل -->
         <div id="register" class="screen hidden">
+            <!-- الزوايا المزخرفة -->
             <div class="corner-bl"></div><div class="corner-br"></div>
+
             <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
             <div class="step-title" id="stepTitle">الخطوة 1: الهوية</div>
+
             <form id="regForm">
                 <div id="step1">
                     <div class="input-group">
@@ -338,15 +352,26 @@
                     </div>
                     <label style="color:#d4af37; margin-bottom:10px; display:block; font-weight:700;">اختر فصيلك:</label>
                     <div class="faction-cards">
-                        <div class="faction-card" data-faction="اوتشيها" onclick="selectFaction(this, 'اوتشيها')"><span class="faction-icon">🔥</span><span class="faction-name">أوتشيها</span></div>
-                        <div class="faction-card" data-faction="الغيم" onclick="selectFaction(this, 'الغيم')"><span class="faction-icon">☁️</span><span class="faction-name">الغيم</span></div>
-                        <div class="faction-card" data-faction="شينوبي" onclick="selectFaction(this, 'شينوبي')"><span class="faction-icon">🍃</span><span class="faction-name">شينوبي</span></div>
-                        <div class="faction-card" data-faction="قراصنة" onclick="selectFaction(this, 'قراصنة')"><span class="faction-icon">🏴‍☠️</span><span class="faction-name">قراصنة</span></div>
-                        <div class="faction-card" data-faction="صيادين" onclick="selectFaction(this, 'صيادين')"><span class="faction-icon">🗡️</span><span class="faction-name">صيادين</span></div>
+                        <div class="faction-card" data-faction="اوتشيها" onclick="selectFaction(this, 'اوتشيها')">
+                            <span class="faction-icon">🔥</span><span class="faction-name">أوتشيها</span>
+                        </div>
+                        <div class="faction-card" data-faction="الغيم" onclick="selectFaction(this, 'الغيم')">
+                            <span class="faction-icon">☁️</span><span class="faction-name">الغيم</span>
+                        </div>
+                        <div class="faction-card" data-faction="شينوبي" onclick="selectFaction(this, 'شينوبي')">
+                            <span class="faction-icon">🍃</span><span class="faction-name">شينوبي</span>
+                        </div>
+                        <div class="faction-card" data-faction="قراصنة" onclick="selectFaction(this, 'قراصنة')">
+                            <span class="faction-icon">🏴‍☠️</span><span class="faction-name">قراصنة</span>
+                        </div>
+                        <div class="faction-card" data-faction="صيادين" onclick="selectFaction(this, 'صيادين')">
+                            <span class="faction-icon">🗡️</span><span class="faction-name">صيادين</span>
+                        </div>
                     </div>
                     <input type="hidden" id="faction" value="">
                     <div class="nav-buttons"><button type="button" class="nav-btn" onclick="nextStep()">التالي ←</button></div>
                 </div>
+
                 <div id="step2" class="hidden">
                     <div class="input-group">
                         <input type="text" id="referrer" placeholder="من طرف من؟" minlength="2" maxlength="30" required>
@@ -357,7 +382,9 @@
                         <span class="icon">📱</span>
                     </div>
                     <label class="laws-link" id="showLawsBtn">📜 عرض قوانين المجموعة</label>
-                    <div class="nav-buttons"><button type="button" class="nav-btn" onclick="prevStep()">→ السابق</button></div>
+                    <div class="nav-buttons">
+                        <button type="button" class="nav-btn" onclick="prevStep()">→ السابق</button>
+                    </div>
                     <button type="submit" class="submit-btn" id="submitBtn" disabled>⚜️ انضم إلى العرش</button>
                 </div>
             </form>
@@ -365,6 +392,7 @@
         <div class="footer">© 2026 The Golden Throne Guild. جميع الحقوق محفوظة.</div>
     </div>
 
+    <!-- مودال المخطوطة -->
     <div class="modal-overlay" id="lawsModal">
         <div class="modal-scroll">
             <button class="close-scroll" onclick="closeModal()">✖</button>
@@ -383,6 +411,7 @@
     <div id="toast" class="toast"></div>
 
     <script>
+        // ========== Parallax للخلفية ==========
         const bgLayer = document.getElementById('bgLayer');
         const particlesLayer = document.getElementById('particlesLayer');
         document.addEventListener('mousemove', (e) => {
@@ -391,6 +420,7 @@
             bgLayer.style.transform = `translate(${x}px, ${y}px)`;
             particlesLayer.style.transform = `translate(${x * 1.5}px, ${y * 1.5}px)`;
         });
+        // للجوال
         document.addEventListener('touchmove', (e) => {
             const touch = e.touches[0];
             const x = (touch.clientX / window.innerWidth - 0.5) * 8;
@@ -399,6 +429,7 @@
             particlesLayer.style.transform = `translate(${x * 1.2}px, ${y * 1.2}px)`;
         }, { passive: true });
 
+        // ========== دوال الانتقال ==========
         function startJourney() {
             const splash = document.getElementById('splash');
             const register = document.getElementById('register');
@@ -414,12 +445,17 @@
             }, 400);
         }
 
-        function closeModal() { document.getElementById('lawsModal').classList.remove('active'); }
+        function closeModal() {
+            document.getElementById('lawsModal').classList.remove('active');
+        }
         document.getElementById('showLawsBtn').addEventListener('click', () => {
             document.getElementById('lawsModal').classList.add('active');
         });
-        document.getElementById('lawsModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+        document.getElementById('lawsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
 
+        // ========== هاتف ==========
         const phoneInput = document.getElementById('phone');
         phoneInput.addEventListener('input', (e) => {
             let val = e.target.value.replace(/[^\d+]/g, '');
@@ -428,6 +464,7 @@
             updateProgress();
         });
 
+        // ========== فصيل ==========
         let selectedFaction = '';
         function selectFaction(card, factionName) {
             document.querySelectorAll('.faction-card').forEach(c => c.classList.remove('selected'));
@@ -437,6 +474,7 @@
             updateProgress();
         }
 
+        // ========== شريط التقدم ==========
         function updateProgress() {
             const filled = [
                 document.getElementById('character').value.trim(),
@@ -460,6 +498,7 @@
             document.getElementById(id).addEventListener('input', updateProgress);
         });
 
+        // ========== خطوات ==========
         function nextStep() {
             if (!document.getElementById('character').value.trim() || !document.getElementById('sourceType').value || !selectedFaction) {
                 showToast('❌ يرجى ملء حقول الهوية واختيار فصيل.', true);
@@ -497,6 +536,7 @@
             }, 300);
         }
 
+        // ========== Toast ==========
         const toast = document.getElementById('toast');
         let toastTimer;
         function showToast(msg, isError = false) {
@@ -507,6 +547,7 @@
             toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
+        // ========== إرسال ==========
         document.getElementById('regForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const ch = document.getElementById('character').value.trim();
