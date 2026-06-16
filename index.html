@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚜️ العرش الذهبي – الانضمام والقوانين</title>
+    <title>⚜️ العرش الذهبي – رحلة الانضمام</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -15,368 +15,522 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             overflow-x: hidden;
             position: relative;
+            cursor: default;
+        }
+
+        .bg-layer {
+            position: fixed;
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
+            transition: transform 0.1s ease-out;
+            z-index: 0;
+            pointer-events: none;
         }
         .bg-glow {
-            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(212,175,55,0.04) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 60%, rgba(180,120,30,0.06) 0%, transparent 50%);
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(212,175,55,0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(180,120,30,0.08) 0%, transparent 50%);
             animation: rotateGlow 25s linear infinite;
-            z-index: 0; pointer-events: none;
         }
         @keyframes rotateGlow { to { transform: rotate(360deg); } }
-        .particles {
+        .particles-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
-            background: radial-gradient(circle, rgba(212,175,55,0.35) 1px, transparent 1px),
-                        radial-gradient(circle, rgba(212,175,55,0.15) 2px, transparent 2px);
+            background: radial-gradient(circle, rgba(212,175,55,0.4) 1px, transparent 1px),
+                        radial-gradient(circle, rgba(212,175,55,0.2) 2px, transparent 2px);
             background-size: 120px 120px, 180px 180px;
             background-position: 0 0, 60px 60px;
             animation: particlesFloat 15s linear infinite;
             opacity: 0.4;
+            transition: transform 0.1s ease-out;
         }
         @keyframes particlesFloat { to { transform: translateY(-120px); } }
+
         .container {
-            position: relative; z-index: 2; width: 100%; max-width: 500px;
-            padding: 20px;
+            position: relative; z-index: 2; width: 100%; max-width: 550px;
+            padding: 20px; margin-top: 40px;
         }
-        .screen {
-            width: 100%;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .hidden {
-            display: none;
-            opacity: 0;
-            pointer-events: none;
-        }
-        #splash { text-align: center; }
+        .screen { width: 100%; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .hidden { display: none; opacity: 0; pointer-events: none; }
+
+        #splash { text-align: center; padding-top: 40px; }
         #splash .logo-img {
-            width: min(170px, 35vw);
-            border-radius: 50%;
-            border: 2px solid rgba(212,175,55,0.5);
-            box-shadow: 0 0 50px rgba(212,175,55,0.35);
-            animation: pulseGlow 3s infinite;
-            margin-bottom: 25px;
+            width: min(150px, 30vw); border-radius: 50%;
+            border: 3px solid rgba(212,175,55,0.6);
+            box-shadow: 0 0 60px rgba(212,175,55,0.4);
+            animation: pulseGlow 3s infinite; margin-bottom: 20px;
+            transition: transform 0.3s;
         }
         @keyframes pulseGlow {
-            0%,100% { box-shadow: 0 0 35px rgba(212,175,55,0.35); transform: scale(1); }
-            50% { box-shadow: 0 0 60px rgba(212,175,55,0.7); transform: scale(1.02); }
+            0%,100% { box-shadow: 0 0 40px rgba(212,175,55,0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 80px rgba(212,175,55,0.8); transform: scale(1.03); }
         }
         #splash h1 {
             font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900;
             background: linear-gradient(180deg, #fff, #f9d56e 50%, #b8860b);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
-            filter: drop-shadow(0 2px 6px rgba(212,175,55,0.5));
+            background-clip: text; margin-bottom: 10px;
         }
-        .subtitle { color: #c0a050; font-size: 1.1rem; }
+        .subtitle { color: #c0a050; font-size: 1.1rem; margin-bottom: 30px; }
+        .cta-start {
+            display: inline-block; padding: 16px 45px;
+            background: linear-gradient(135deg, #f9d56e, #b8860b);
+            color: #000; font-weight: 900; font-size: 1.2rem;
+            border-radius: 10px; cursor: pointer; text-decoration: none;
+            box-shadow: 0 8px 25px rgba(212,175,55,0.4);
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .cta-start:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(212,175,55,0.6); }
+        .cta-start:active { transform: scale(0.96); }
+        .cta-start::after {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 60%);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .cta-start:hover::after { opacity: 1; }
+
         #register {
-            background: linear-gradient(145deg, rgba(20,20,20,0.9), rgba(10,10,10,0.95));
-            backdrop-filter: blur(20px); border: 1px solid rgba(212,175,55,0.25);
-            border-radius: 24px; padding: 30px 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7), 0 0 30px rgba(212,175,55,0.15);
+            background: linear-gradient(145deg, rgba(20,20,20,0.92), rgba(10,10,10,0.96));
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 24px; padding: 30px 25px; margin-top: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 40px rgba(212,175,55,0.2);
+            position: relative;
         }
-        #register h2 {
-            background: linear-gradient(135deg, #fff, #d4af37);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-align: center; font-weight: 900; font-size: 1.9rem; margin-bottom: 20px;
+        #register::before, #register::after,
+        .corner-bl, .corner-br {
+            content: ''; position: absolute; width: 30px; height: 30px;
+            border-color: #d4af37; border-style: solid; z-index: 3;
+            opacity: 0.7; pointer-events: none;
         }
-        .benefits {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px;
+        #register::before { top: -1px; right: -1px; border-width: 3px 0 0 3px; border-radius: 0 20px 0 0; }
+        #register::after { top: -1px; left: -1px; border-width: 3px 3px 0 0; border-radius: 20px 0 0 0; }
+        .corner-bl { bottom: -1px; right: -1px; border-width: 0 0 3px 3px; border-radius: 0 0 0 20px; }
+        .corner-br { bottom: -1px; left: -1px; border-width: 0 3px 3px 0; border-radius: 0 0 20px 0; }
+
+        .step-title { text-align: center; color: #d4af37; font-size: 1.4rem; margin-bottom: 15px; font-weight: 700; }
+        .progress-bar {
+            width: 100%; height: 8px; background: rgba(255,255,255,0.08);
+            border-radius: 8px; margin-bottom: 25px; overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
         }
-        .benefit-item {
-            background: rgba(212,175,55,0.04); border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 12px; padding: 12px 8px; text-align: center;
-            font-size: 0.9rem; color: #ddd; transition: 0.3s;
+        .progress-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #b8860b, #f9d56e, #b8860b);
+            background-size: 200% 100%;
+            border-radius: 8px; transition: width 0.5s ease;
+            box-shadow: 0 0 15px rgba(212,175,55,0.6);
+            animation: shimmer 2s infinite;
         }
-        .benefit-item:hover {
-            background: rgba(212,175,55,0.1); border-color: #d4af37;
-            transform: translateY(-3px); box-shadow: 0 8px 20px rgba(212,175,55,0.15);
-        }
-        .benefit-item .icon { font-size: 1.6rem; display: block; margin-bottom: 5px; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         .input-group { position: relative; margin-bottom: 20px; }
         .input-group .icon {
             position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
-            font-size: 1.2rem; color: #d4af37; transition: 0.3s; pointer-events: none;
+            font-size: 1.2rem; color: #d4af37; pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus ~ .icon,
+        .input-group select:focus ~ .icon {
+            color: #fff; filter: drop-shadow(0 0 6px #d4af37);
+            animation: iconBounce 0.5s ease;
+        }
+        @keyframes iconBounce {
+            0%,100% { transform: translateY(-50%); }
+            30% { transform: translateY(-70%); }
+            60% { transform: translateY(-30%); }
         }
         .input-group input, .input-group select {
             width: 100%; padding: 14px 45px 14px 15px;
-            background: rgba(0,0,0,0.4); border: 1px solid rgba(212,175,55,0.3);
-            border-radius: 10px; color: #fff; font-family: 'Cairo', sans-serif;
-            font-size: 0.95rem; transition: 0.3s; outline: none;
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 10px; color: #fff; font-size: 0.95rem; outline: none;
+            transition: all 0.3s ease;
         }
         .input-group input:focus, .input-group select:focus {
-            border-color: #d4af37; box-shadow: 0 0 15px rgba(212,175,55,0.2);
-            background: rgba(255,255,255,0.03);
-        }
-        .input-group input:focus ~ .icon, .input-group select:focus ~ .icon {
-            color: #fff; filter: drop-shadow(0 0 4px #d4af37);
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212,175,55,0.3), inset 0 0 10px rgba(212,175,55,0.05);
+            background: rgba(0,0,0,0.6);
         }
         .input-group select {
             appearance: none;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="%23d4af37"><path d="M7 10l5 5 5-5z"/></svg>');
             background-repeat: no-repeat; background-position: left 15px center; background-size: 14px;
         }
-        .submit-btn {
-            width: 100%; padding: 15px; border: none; border-radius: 10px;
-            background: linear-gradient(135deg, #f9d56e, #d4af37, #b8860b);
-            color: #000; font-weight: 900; font-size: 1.2rem;
-            font-family: 'Cairo', sans-serif; cursor: pointer; transition: 0.3s;
-            box-shadow: 0 8px 25px rgba(212,175,55,0.3); margin-top: 10px;
+
+        .faction-cards {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 10px; margin-bottom: 25px;
+        }
+        .faction-card {
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 14px; padding: 14px 6px; text-align: center;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; overflow: hidden;
         }
-        .submit-btn:hover {
-            transform: translateY(-2px); box-shadow: 0 12px 30px rgba(212,175,55,0.5);
+        .faction-card::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, currentColor 0%, transparent 70%);
+            opacity: 0; transition: opacity 0.4s;
         }
-        .submit-btn:disabled { background: #444; box-shadow: none; color: #888; cursor: not-allowed; }
-        .submit-btn::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 30%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg); animation: swordSlash 3s infinite;
+        .faction-card:hover::before { opacity: 0.08; }
+        .faction-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.4); }
+        .faction-card:active { transform: scale(0.94); }
+        .faction-card.selected {
+            border-color: #d4af37 !important;
+            box-shadow: 0 0 25px currentColor, inset 0 0 15px currentColor;
+            transform: scale(1.05);
+            animation: cardPulse 0.6s ease;
         }
-        @keyframes swordSlash { 0% { left: -100%; } 100% { left: 200%; } }
+        @keyframes cardPulse {
+            0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1.05); }
+        }
+        .faction-card[data-faction="اوتشيها"] { color: #ff4444; border-color: rgba(255,68,68,0.4); }
+        .faction-card[data-faction="الغيم"] { color: #4499ff; border-color: rgba(68,153,255,0.4); }
+        .faction-card[data-faction="شينوبي"] { color: #44dd44; border-color: rgba(68,221,68,0.4); }
+        .faction-card[data-faction="قراصنة"] { color: #ff9900; border-color: rgba(255,153,0,0.4); }
+        .faction-card[data-faction="صيادين"] { color: #aaaaaa; border-color: rgba(170,170,170,0.4); }
+        .faction-card .faction-icon {
+            font-size: 2.2rem; display: block; margin-bottom: 6px;
+            transition: transform 0.3s;
+        }
+        .faction-card:hover .faction-icon { transform: scale(1.2); }
+        .faction-card.selected .faction-icon { transform: scale(1.3); }
+        .faction-card .faction-name { font-size: 0.8rem; font-weight: 700; }
+
+        .nav-buttons { display: flex; gap: 10px; margin-top: 25px; }
+        .nav-btn {
+            flex: 1; padding: 14px; border: 1px solid #d4af37; border-radius: 10px;
+            background: rgba(212,175,55,0.05); color: #d4af37; font-weight: 700;
+            cursor: pointer; transition: all 0.3s ease; font-family: 'Cairo', sans-serif;
+        }
+        .nav-btn:hover { background: rgba(212,175,55,0.15); box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+        .nav-btn:active { transform: scale(0.96); }
+
+        .submit-btn {
+            width: 100%; padding: 16px; border-radius: 12px;
+            background: #333; color: #777; font-weight: 900;
+            font-size: 1.2rem; cursor: not-allowed; transition: all 0.5s ease;
+            margin-top: 15px; border: 2px solid #555;
+            position: relative; overflow: hidden; font-family: 'Cairo', sans-serif;
+        }
+        .submit-btn.active {
+            background: linear-gradient(135deg, #f9d56e, #d4af37, #b8860b);
+            color: #000; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.2);
+            border-color: #d4af37;
+            animation: energyPulse 1.5s infinite;
+        }
+        @keyframes energyPulse {
+            0%,100% { box-shadow: 0 10px 30px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.2); }
+            50% { box-shadow: 0 10px 40px rgba(212,175,55,0.7), 0 0 90px rgba(212,175,55,0.4); }
+        }
+        .submit-btn.active::before {
+            content: ''; position: absolute; top: -2px; left: -2px;
+            right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #f9d56e, #d4af37, #b8860b, #d4af37, #f9d56e);
+            background-size: 400% 400%; border-radius: 14px; z-index: -1;
+            animation: borderGlow 3s ease infinite; opacity: 0.6;
+        }
+        @keyframes borderGlow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        .submit-btn.active:hover { transform: translateY(-3px); }
+        .submit-btn.active:active { transform: scale(0.96); }
+
         .laws-link {
-            text-align: center;
-            margin-top: 20px;
-            color: #d4af37;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: bold;
+            text-align: center; margin-top: 15px; color: #d4af37;
+            text-decoration: underline; cursor: pointer;
+            transition: all 0.3s; font-weight: 700;
         }
-        /* المودال */
+        .laws-link:hover { color: #fff; text-shadow: 0 0 10px #d4af37; }
+
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+            z-index: 100; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
         }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-scroll {
+            background: linear-gradient(180deg, #1a1808 0%, #0f0e04 100%);
+            border: 3px double #8b7500; border-radius: 8px;
+            padding: 30px 20px; max-width: 500px; width: 92%;
+            max-height: 80vh; overflow-y: auto;
+            box-shadow: 0 0 60px rgba(212,175,55,0.5), inset 0 0 30px rgba(0,0,0,0.5);
+            position: relative; color: #d4c9a0;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(139,117,0,0.08) 29px);
         }
-        .modal {
-            background: rgba(20,20,20,0.95);
-            border: 1px solid #d4af37;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 0 50px rgba(212,175,55,0.3);
-            position: relative;
-        }
-        .modal h2 {
-            text-align: center;
-            color: #d4af37;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
+        .modal-scroll h2 {
+            text-align: center; color: #d4af37; margin-bottom: 25px;
+            font-size: 1.8rem; font-family: 'Cairo', sans-serif;
+            border-bottom: 2px solid #8b7500; padding-bottom: 15px;
+            text-shadow: 0 0 10px rgba(212,175,55,0.4);
         }
         .rule {
-            background: rgba(212,175,55,0.04);
-            border: 1px solid rgba(212,175,55,0.2);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
+            background: rgba(0,0,0,0.4); border-right: 4px solid #d4af37;
+            padding: 14px; margin-bottom: 14px; border-radius: 0 10px 10px 0;
+            transition: all 0.3s;
         }
-        .rule h3 { color: #d4af37; margin-bottom: 5px; font-size: 1.1rem; }
-        .rule p { color: #ccc; font-size: 0.9rem; line-height: 1.5; }
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            left: 15px;
-            background: transparent;
-            border: none;
-            color: #d4af37;
-            font-size: 1.8rem;
-            cursor: pointer;
-            font-weight: bold;
-            line-height: 1;
+        .rule:hover { background: rgba(0,0,0,0.6); border-right-color: #fff; }
+        .rule h3 { color: #d4af37; margin-bottom: 6px; font-size: 1rem; }
+        .rule p { color: #ccc; font-size: 0.85rem; line-height: 1.6; }
+        .close-scroll {
+            position: absolute; top: 12px; left: 15px;
+            background: rgba(0,0,0,0.6); border: 1px solid #d4af37;
+            color: #d4af37; font-size: 1.4rem; cursor: pointer;
+            width: 35px; height: 35px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
         }
-        .footer {
-            text-align: center;
-            color: #555;
-            margin-top: 20px;
-            font-size: 0.8rem;
-        }
+        .close-scroll:hover { background: #d4af37; color: #000; }
+
         .toast {
-            position: fixed; top: -80px; left: 50%; transform: translateX(-50%);
-            background: rgba(20,20,20,0.9); backdrop-filter: blur(10px);
-            border: 1px solid #d4af37; border-radius: 30px; padding: 14px 28px;
-            color: #fff; font-weight: bold; z-index: 999;
-            opacity: 0; transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+            position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+            background: rgba(20,20,20,0.95); backdrop-filter: blur(15px);
+            border: 1px solid #d4af37; border-radius: 40px;
+            padding: 16px 32px; color: #fff; font-weight: 700; z-index: 999; opacity: 0;
+            transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
         }
-        .toast.show { top: 30px; opacity: 1; }
+        .toast.show { top: 35px; opacity: 1; }
+
+        .footer { text-align: center; color: #555; margin-top: 30px; font-size: 0.8rem; }
+
         @media (max-width: 480px) {
-            .benefits { grid-template-columns: 1fr 1fr; }
-            .container { padding: 10px; }
+            .container { padding: 15px; margin-top: 30px; }
+            .faction-cards { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); }
+            #register { padding: 20px 15px; }
         }
     </style>
 </head>
 <body>
-    <div class="bg-glow"></div>
-    <div class="particles"></div>
+    <div class="bg-layer" id="bgLayer"><div class="bg-glow"></div></div>
+    <div class="particles-layer" id="particlesLayer"></div>
 
     <div class="container">
-        <!-- شاشة الترحيب -->
         <div id="splash" class="screen">
-            <img src="https://i.imgur.com/vmnu7hP.jpeg" alt="Logo" class="logo-img"
+            <img src="https://i.imgur.com/vmnu7hP.jpeg" alt="شعار العرش الذهبي" class="logo-img"
                  onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22><circle cx=%22100%22 cy=%22100%22 r=%2290%22 fill=%22%23111%22 stroke=%22%23d4af37%22 stroke-width=%224%22/><text x=%22100%22 y=%22120%22 text-anchor=%22middle%22 fill=%22%23d4af37%22 font-size=%2290%22>⚜️</text></svg>';">
             <h1>『𝕿𝖍𝖊 𝕲𝖔𝖑𝖉𝖊𝖓 ⚜️𝕿𝖍𝖗𝖔𝖓𝖊 𝕲𝖚𝖎𝖑𝖉』</h1>
             <p class="subtitle">حيث تلتقي الأساطير</p>
+            <a class="cta-start" onclick="startJourney()">⚜️ ابدأ الرحلة</a>
         </div>
 
-        <!-- شاشة التسجيل -->
         <div id="register" class="screen hidden">
+            <div class="corner-bl"></div><div class="corner-br"></div>
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="step-title" id="stepTitle">الخطوة 1: الهوية</div>
             <form id="regForm">
-                <h2>طلب انضمام</h2>
-                <div class="benefits">
-                    <div class="benefit-item"><span class="icon">🎁</span>فعاليات وجوائز</div>
-                    <div class="benefit-item"><span class="icon">⚔️</span>حروب وتحديات</div>
-                    <div class="benefit-item"><span class="icon">🎭</span>مجتمع أنمي ومانجا</div>
-                    <div class="benefit-item"><span class="icon">🏆</span>نظام رتب وتقدير</div>
+                <div id="step1">
+                    <div class="input-group">
+                        <input type="text" id="character" placeholder="اسم شخصيتك (أنمي/مانجا)" minlength="3" maxlength="30" required autocomplete="off">
+                        <span class="icon">🎩</span>
+                    </div>
+                    <div class="input-group">
+                        <select id="sourceType" required>
+                            <option value="">اختر المصدر...</option>
+                            <option value="أنمي">أنمي</option>
+                            <option value="مانجا">مانجا</option>
+                        </select>
+                        <span class="icon">📖</span>
+                    </div>
+                    <label style="color:#d4af37; margin-bottom:10px; display:block; font-weight:700;">اختر فصيلك:</label>
+                    <div class="faction-cards">
+                        <div class="faction-card" data-faction="اوتشيها" onclick="selectFaction(this, 'اوتشيها')"><span class="faction-icon">🔥</span><span class="faction-name">أوتشيها</span></div>
+                        <div class="faction-card" data-faction="الغيم" onclick="selectFaction(this, 'الغيم')"><span class="faction-icon">☁️</span><span class="faction-name">الغيم</span></div>
+                        <div class="faction-card" data-faction="شينوبي" onclick="selectFaction(this, 'شينوبي')"><span class="faction-icon">🍃</span><span class="faction-name">شينوبي</span></div>
+                        <div class="faction-card" data-faction="قراصنة" onclick="selectFaction(this, 'قراصنة')"><span class="faction-icon">🏴‍☠️</span><span class="faction-name">قراصنة</span></div>
+                        <div class="faction-card" data-faction="صيادين" onclick="selectFaction(this, 'صيادين')"><span class="faction-icon">🗡️</span><span class="faction-name">صيادين</span></div>
+                    </div>
+                    <input type="hidden" id="faction" value="">
+                    <div class="nav-buttons"><button type="button" class="nav-btn" onclick="nextStep()">التالي ←</button></div>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="character" placeholder="اسم شخصيتك (أنمي/مانجا)" minlength="3" maxlength="30" required autocomplete="off">
-                    <span class="icon">🎩</span>
+                <div id="step2" class="hidden">
+                    <div class="input-group">
+                        <input type="text" id="referrer" placeholder="من طرف من؟" minlength="2" maxlength="30" required>
+                        <span class="icon">🤝</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" id="phone" placeholder="رقم هاتفك مع المفتاح الدولي" required>
+                        <span class="icon">📱</span>
+                    </div>
+                    <label class="laws-link" id="showLawsBtn">📜 عرض قوانين المجموعة</label>
+                    <div class="nav-buttons"><button type="button" class="nav-btn" onclick="prevStep()">→ السابق</button></div>
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>⚜️ انضم إلى العرش</button>
                 </div>
-                <div class="input-group">
-                    <select id="sourceType" required>
-                        <option value="">اختر المصدر...</option>
-                        <option value="أنمي">أنمي</option>
-                        <option value="مانجا">مانجا</option>
-                    </select>
-                    <span class="icon">📖</span>
-                </div>
-                <div class="input-group">
-                    <input type="text" id="referrer" placeholder="من طرف من؟" minlength="2" maxlength="30" required>
-                    <span class="icon">🤝</span>
-                </div>
-                <div class="input-group">
-                    <input type="tel" id="phone" placeholder="رقم هاتفك مع المفتاح الدولي" required>
-                    <span class="icon">📱</span>
-                </div>
-                <button type="submit" class="submit-btn" id="submitBtn">⚜️ انضم إلى العرش</button>
             </form>
-            <div class="laws-link" id="showLawsBtn">📜 عرض قوانين المجموعة</div>
         </div>
         <div class="footer">© 2026 The Golden Throne Guild. جميع الحقوق محفوظة.</div>
     </div>
 
-    <!-- مودال القوانين -->
     <div class="modal-overlay" id="lawsModal">
-        <div class="modal">
-            <button class="close-btn" id="closeLawsBtn">✖</button>
-            <h2>📜 قوانين المجموعة</h2>
-            <div class="rule"><h3>1) الاحترام أولاً ❤️</h3><p>يُمنع الإساءة، السخرية، الاستفزاز، أو التقليل من أي عضو. يمنع التنمر أو التعليقات الجارحة بأي شكل.</p></div>
-            <div class="rule"><h3>2) الالتزام بالأدب العام 💬</h3><p>يمنع المحتوى غير اللائق أو الإيحاءات أو الكلام الخارج عن حدود الذوق. يمنع إرسال صور/فيديوهات مخالفة للآداب.</p></div>
-            <div class="rule"><h3>3) الخصوصية خط أحمر ‼️</h3><p>يمنع طلب الصور الشخصية أو الأرقام أو الحسابات الخاصة بإلحاح. يمنع نشر محادثات خاصة دون إذن صاحبها.</p></div>
-            <div class="rule"><h3>4) ممنوع العلاقات الخاصة ❌</h3><p>يمنع تحويل الكروب إلى تعارف شخصي أو محاولات ارتباط علني. أي تواصل خاص يكون خارج مسؤولية الإدارة.</p></div>
-            <div class="rule"><h3>5) منع الجدالات الحساسة 🗯️</h3><p>يمنع النقاش السياسي أو الديني أو أي مواضيع تثير خلافات حادة. يمنع إثارة الفتن أو التعصب.</p></div>
-            <div class="rule"><h3>6) منع الإعلانات والروابط ❌</h3><p>يمنع نشر روابط، إعلانات، قروبات أخرى أو سبام بدون إذن الإدارة.</p></div>
-            <div class="rule"><h3>7) الالتزام بموضوع الكروب 💭</h3><p>الالتزام بطبيعة الكروب (دردشة – ترفيه – ألعاب – ثقافة…). يمنع الإزعاج المتكرر أو الرسائل العشوائية بكثرة.</p></div>
-            <div class="rule"><h3>8) صلاحيات الإدارة ✅</h3><p>للإدارة حق التنبيه أو كتم العضو أو حظره عند المخالفة. التكرار يؤدي إلى الطرد النهائي دون نقاش.</p></div>
-            <div style="text-align:center; margin-top:20px; color:#c0a050; font-weight:bold;">~~~~~~~ 💫👑💫 ~~~~~~~</div>
+        <div class="modal-scroll">
+            <button class="close-scroll" onclick="closeModal()">✖</button>
+            <h2>📜 ميثاق العرش الذهبي</h2>
+            <div class="rule"><h3>1) الاحترام أولاً ❤️</h3><p>يُمنع الإساءة، السخرية، أو التنمر بأي شكل.</p></div>
+            <div class="rule"><h3>2) الأدب العام 💬</h3><p>لا محتوى غير لائق أو إيحاءات.</p></div>
+            <div class="rule"><h3>3) الخصوصية ‼️</h3><p>لا طلب صور أو نشر محادثات خاصة.</p></div>
+            <div class="rule"><h3>4) العلاقات الخاصة ❌</h3><p>لا تعارف شخصي داخل الكروب.</p></div>
+            <div class="rule"><h3>5) الجدالات الحساسة 🗯️</h3><p>لا نقاش سياسي أو ديني.</p></div>
+            <div class="rule"><h3>6) الإعلانات والروابط ❌</h3><p>لا نشر بدون إذن الإدارة.</p></div>
+            <div class="rule"><h3>7) موضوع الكروب 💭</h3><p>الالتزام بطبيعة المجموعة.</p></div>
+            <div class="rule"><h3>8) صلاحيات الإدارة ✅</h3><p>للإدارة حق التنبيه أو الكتم أو الحظر.</p></div>
         </div>
     </div>
 
     <div id="toast" class="toast"></div>
 
     <script>
-        // الانتقال بين الشاشات بعد 3 ثوانٍ
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash');
-                const register = document.getElementById('register');
-                splash.style.opacity = '0';
-                splash.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    splash.classList.add('hidden');
-                    register.classList.remove('hidden');
-                    register.offsetHeight;
-                    register.style.opacity = '1';
-                    register.style.transform = 'scale(1)';
-                }, 400);
-            }, 3000);
-
-            // فتح وغلق مودال القوانين
-            const showLawsBtn = document.getElementById('showLawsBtn');
-            const lawsModal = document.getElementById('lawsModal');
-            const closeLawsBtn = document.getElementById('closeLawsBtn');
-
-            showLawsBtn.addEventListener('click', () => {
-                lawsModal.classList.add('active');
-            });
-            closeLawsBtn.addEventListener('click', () => {
-                lawsModal.classList.remove('active');
-            });
-            lawsModal.addEventListener('click', (e) => {
-                if (e.target === lawsModal) lawsModal.classList.remove('active');
-            });
+        const bgLayer = document.getElementById('bgLayer');
+        const particlesLayer = document.getElementById('particlesLayer');
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 10;
+            const y = (e.clientY / window.innerHeight - 0.5) * 10;
+            bgLayer.style.transform = `translate(${x}px, ${y}px)`;
+            particlesLayer.style.transform = `translate(${x * 1.5}px, ${y * 1.5}px)`;
         });
+        document.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            const x = (touch.clientX / window.innerWidth - 0.5) * 8;
+            const y = (touch.clientY / window.innerHeight - 0.5) * 8;
+            bgLayer.style.transform = `translate(${x}px, ${y}px)`;
+            particlesLayer.style.transform = `translate(${x * 1.2}px, ${y * 1.2}px)`;
+        }, { passive: true });
 
-        // تحسين حقل الهاتف
+        function startJourney() {
+            const splash = document.getElementById('splash');
+            const register = document.getElementById('register');
+            splash.style.opacity = '0'; splash.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                splash.classList.add('hidden');
+                register.classList.remove('hidden');
+                register.style.opacity = '0'; register.style.transform = 'translateY(20px)';
+                requestAnimationFrame(() => {
+                    register.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    register.style.opacity = '1'; register.style.transform = 'translateY(0)';
+                });
+            }, 400);
+        }
+
+        function closeModal() { document.getElementById('lawsModal').classList.remove('active'); }
+        document.getElementById('showLawsBtn').addEventListener('click', () => {
+            document.getElementById('lawsModal').classList.add('active');
+        });
+        document.getElementById('lawsModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
         const phoneInput = document.getElementById('phone');
         phoneInput.addEventListener('input', (e) => {
             let val = e.target.value.replace(/[^\d+]/g, '');
             if (val && !val.startsWith('+')) val = '+' + val;
             e.target.value = val;
+            updateProgress();
         });
 
-        // Toast
+        let selectedFaction = '';
+        function selectFaction(card, factionName) {
+            document.querySelectorAll('.faction-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            selectedFaction = factionName;
+            document.getElementById('faction').value = factionName;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const filled = [
+                document.getElementById('character').value.trim(),
+                document.getElementById('sourceType').value,
+                document.getElementById('faction').value,
+                document.getElementById('referrer').value.trim(),
+                phoneInput.value.trim()
+            ].filter(v => v).length;
+            const pct = (filled / 5) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+            const btn = document.getElementById('submitBtn');
+            if (filled === 5 && /^\+\d{7,15}$/.test(phoneInput.value.trim())) {
+                btn.classList.add('active');
+                btn.disabled = false;
+            } else {
+                btn.classList.remove('active');
+                btn.disabled = true;
+            }
+        }
+        ['character','sourceType','referrer'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateProgress);
+        });
+
+        function nextStep() {
+            if (!document.getElementById('character').value.trim() || !document.getElementById('sourceType').value || !selectedFaction) {
+                showToast('❌ يرجى ملء حقول الهوية واختيار فصيل.', true);
+                return;
+            }
+            document.getElementById('step1').style.opacity = '0';
+            document.getElementById('step1').style.transform = 'translateX(20px)';
+            setTimeout(() => {
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                document.getElementById('step2').style.opacity = '0';
+                document.getElementById('step2').style.transform = 'translateX(-20px)';
+                requestAnimationFrame(() => {
+                    document.getElementById('step2').style.transition = 'all 0.5s ease';
+                    document.getElementById('step2').style.opacity = '1';
+                    document.getElementById('step2').style.transform = 'translateX(0)';
+                });
+                updateProgress();
+            }, 300);
+        }
+        function prevStep() {
+            document.getElementById('step2').style.opacity = '0';
+            document.getElementById('step2').style.transform = 'translateX(-20px)';
+            setTimeout(() => {
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step1').classList.remove('hidden');
+                document.getElementById('step1').style.opacity = '0';
+                document.getElementById('step1').style.transform = 'translateX(20px)';
+                requestAnimationFrame(() => {
+                    document.getElementById('step1').style.transition = 'all 0.5s ease';
+                    document.getElementById('step1').style.opacity = '1';
+                    document.getElementById('step1').style.transform = 'translateX(0)';
+                });
+                updateProgress();
+            }, 300);
+        }
+
         const toast = document.getElementById('toast');
         let toastTimer;
         function showToast(msg, isError = false) {
             clearTimeout(toastTimer);
             toast.textContent = msg;
-            toast.style.background = isError ? 'rgba(120,20,20,0.95)' : 'rgba(20,60,20,0.95)';
+            toast.style.background = isError ? 'rgba(140,20,20,0.95)' : 'rgba(20,70,20,0.95)';
             toast.classList.add('show');
             toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        // إرسال النموذج: فتح واتساب
-        const form = document.getElementById('regForm');
-        const submitBtn = document.getElementById('submitBtn');
-        form.addEventListener('submit', (e) => {
+        document.getElementById('regForm').addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const character = document.getElementById('character').value.trim();
-            const sourceType = document.getElementById('sourceType').value;
-            const referrer = document.getElementById('referrer').value.trim();
-            const phone = phoneInput.value.trim();
-
-            if (!character || !sourceType || !referrer || !phone) {
-                showToast('❌ يرجى ملء جميع الحقول.', true);
-                return;
-            }
-            if (!/^\+\d{7,15}$/.test(phone)) {
-                showToast('❌ صيغة الهاتف غير صحيحة. ابدأ بـ + ثم رمز الدولة.', true);
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'جارٍ التحويل...';
-
-            const message = `مرحباً، أنا اخترت شخصية ${character} من ${sourceType} وتعرفت على مجموعتكم من ${referrer}. رقمي: ${phone}`;
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappURL = `https://wa.me/963992561121?text=${encodedMessage}`;
-
+            const ch = document.getElementById('character').value.trim();
+            const src = document.getElementById('sourceType').value;
+            const fac = document.getElementById('faction').value;
+            const ref = document.getElementById('referrer').value.trim();
+            const ph = phoneInput.value.trim();
+            if (!ch || !src || !fac || !ref || !ph) { showToast('❌ أكمل جميع الحقول.', true); return; }
+            if (!/^\+\d{7,15}$/.test(ph)) { showToast('❌ صيغة الهاتف خطأ.', true); return; }
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.textContent = 'جارٍ التحويل...';
+            btn.classList.add('active');
+            const msg = `مرحباً، أنا اخترت شخصية ${ch} من ${src}، فصيلي هو ${fac}، وتعرفت على مجموعتكم من ${ref}. رقمي: ${ph}`;
             setTimeout(() => {
-                window.open(whatsappURL, '_blank');
-                submitBtn.disabled = false;
-                submitBtn.textContent = '⚜️ انضم إلى العرش';
-                form.reset();
-                showToast('✅ تم فتح واتساب لإرسال الطلب.');
+                window.open(`https://wa.me/963992561121?text=${encodeURIComponent(msg)}`, '_blank');
+                btn.disabled = false; btn.textContent = '⚜️ انضم إلى العرش';
+                btn.classList.remove('active');
+                e.target.reset();
+                document.querySelectorAll('.faction-card').forEach(c => c.classList.remove('selected'));
+                selectedFaction = ''; document.getElementById('faction').value = '';
+                updateProgress();
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step1').classList.remove('hidden');
+                showToast('✅ تم فتح واتساب لإرسال طلبك.');
             }, 500);
         });
     </script>
